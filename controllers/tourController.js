@@ -42,8 +42,14 @@ exports.getAllTours = (req, res) => {
     status: 'success',
     requestedAt: req.requestTime,
     results: tours.length,
-    data: {
+    _data: {
       tour: tour,
+    },
+    get data() {
+      return this._data;
+    },
+    set data(value) {
+      this._data = value;
     },
   });
 };
