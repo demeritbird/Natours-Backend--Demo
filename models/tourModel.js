@@ -114,6 +114,12 @@ const tourSchema = new mongoose.Schema(
         ref: 'User',
       },
     ],
+    // reviews: [
+    //   {
+    //     type: mongoose.Schema.ObjectId,
+    //     ref: 'Review',
+    //   },
+    // ],
   },
   {
     toJSON: {
@@ -127,6 +133,12 @@ const tourSchema = new mongoose.Schema(
 
 tourSchema.virtual('durationWeeks').get(function () {
   return this.duration / 7;
+});
+
+tourSchema.virtual('reviews', {
+  ref: 'Review',
+  foreignField: 'tour',
+  localField: '_id',
 });
 
 // Document Middleware: runs before the save command and .create() command (does not work on insertMnay)
