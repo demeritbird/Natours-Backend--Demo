@@ -5,7 +5,7 @@ const reviewSchema = new mongoose.Schema(
   {
     review: {
       type: String,
-      required: [true, 'Review cannot be empty.'],
+      required: [true, 'Review can not be empty!'],
     },
     rating: {
       type: Number,
@@ -37,6 +37,8 @@ const reviewSchema = new mongoose.Schema(
   }
 );
 
+reviewSchema.index({ tour: 1, user: 1 }, { unique: true });
+
 reviewSchema.pre(/^find/, function (next) {
   this.populate({
     //   path: 'tour',
@@ -66,12 +68,12 @@ reviewSchema.statics.calcAverageRatings = async function (tourId) {
 
   if (stats.length > 0) {
     await Tour.findByIdAndUpdate(tourId, {
-      ratingQuantity: stats[0].nRating,
+      ratingsQuantity: stats[0].nRating,
       ratingsAverage: stats[0].avgRating,
     });
   } else {
     await Tour.findByIdAndUpdate(tourId, {
-      ratingQuantity: 0,
+      ratingsQuantity: 0,
       ratingsAverage: 4.5,
     });
   }
