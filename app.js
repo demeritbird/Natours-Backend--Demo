@@ -15,6 +15,7 @@ const viewRouter = require('./routes/viewRoutes');
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
+const cors = require('cors');
 
 //view template
 app.set('view engine', 'pug');
@@ -24,7 +25,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Set Security HTTP Headers
 app.use(helmet());
-
+app.use(cors());
+app.options('*', cors());
 // Development logging
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
