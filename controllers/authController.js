@@ -115,6 +115,16 @@ exports.isLoggedIn = async (req, res, next) => {
   next();
 };
 
+exports.logout = (req, res) => {
+  console.log('logged out');
+
+  res.clearCookie('jwt');
+
+  res.status(200).json({
+    status: 'success',
+  });
+};
+
 exports.protect = catchAsync(async (req, res, next) => {
   // Get JSON Web Token and check if it's there.
   let token;
