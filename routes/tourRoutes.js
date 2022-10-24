@@ -10,9 +10,11 @@ const router = express.Router();
 router.use('/:tourId/reviews', reviewRouter);
 
 //router.param('id', tourController.checkID);
-router
-  .route('/top-5-cheap')
-  .get(tourController.aliasTopTours, tourController.getAllTours);
+router.route('/top-5-cheap').get(
+  tourController.aliasTopTours,
+
+  tourController.getAllTours
+);
 
 router.route('/tour-stats').get(tourController.getTourStats);
 
@@ -26,7 +28,7 @@ router.route('/distances/:latlng/unit/:unit').get(tourController.getDistances);
 
 router
   .route('/')
-  .get(tourController.getAllTours)
+  .get(authController.isLoggedIn, tourController.getAllTours)
   .post(
     authController.protect,
     authController.restrictTo('admin', 'lead-guide'),

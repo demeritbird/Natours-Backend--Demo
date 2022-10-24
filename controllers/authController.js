@@ -44,6 +44,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     passwordConfirm: req.body.passwordConfirm,
     passwordChangedAt: req.body.passwordChangedAt,
     role: req.body.role,
+    photo: req.body.photo,
   });
 
   createSendToken(newUser, 201, res);
@@ -107,6 +108,10 @@ exports.isLoggedIn = async (req, res, next) => {
 
       // THERE IS A LOGGED IN USER
       res.locals.user = currentUser;
+
+      console.log(currentUser);
+      console.log('--------------------');
+
       return next();
     } catch (err) {
       return next();
@@ -162,6 +167,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   // Grant Access to Protected Route
   req.user = freshUser;
+  res.locals.user = freshUser;
   next();
 });
 

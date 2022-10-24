@@ -92,6 +92,7 @@ app.use((req, res, next) => {
 
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 app.use(cookieParser());
 
 // Data Sanitisation against NoSQL query injections
@@ -115,7 +116,7 @@ app.use(
 );
 
 app.use((req, res, next) => {
-  console.log(req.cookies);
+  // console.log(req.cookies);
   next();
 });
 

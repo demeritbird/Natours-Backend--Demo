@@ -104,5 +104,4 @@ const handleSubmit = (e) => {
 
   formEl.reset();
 };
-
 formEl.addEventListener('submit', handleSubmit);
