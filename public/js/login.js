@@ -1,6 +1,6 @@
 /* eslint-disable */
 // import axios from 'axios';
-// import { showAlert } from './alerts';
+// import { alert } from './alerts';
 
 // console.log('here');
 
@@ -31,7 +31,7 @@
 //     });
 
 //     if (res.data.status === 'success') {
-//       showAlert('success', 'Logged in successfully!');
+//       alert('success', 'Logged in successfully!');
 //       alert('success', 'Logged in successfully!');
 //       console.log('nice');
 //       window.setTimeout(() => {
@@ -39,13 +39,13 @@
 //       }, 1500);
 //     }
 //   } catch (err) {
-//     showAlert('error', err.response.data.message);
+//     alert('error', err.response.data.message);
 //   }
 // };
 
 const REQUEST_TIMEOUT_SEC = 5;
 
-const formEl = document.querySelector('.form');
+// const formEl = document.querySelector('.form');
 
 const timeout = (sec) =>
   new Promise((_, reject) => {
@@ -104,4 +104,53 @@ const handleSubmit = (e) => {
 
   formEl.reset();
 };
-formEl.addEventListener('submit', handleSubmit);
+// formEl.addEventListener('submit', handleSubmit);
+
+const userDataForm = document.querySelector('.form-user-data');
+
+const updateSettings = async (type, data) => {
+  const dt = { ...data };
+  let options = { method: 'PATCH' };
+  try {
+    let url = 'http://localhost:3000/api/v1/users/';
+    if (type === 'data') {
+      url += 'updateMe';
+      let form = new FormData();
+      form.append('name', dt.name);
+      form.append('email', dt.email);
+      form.append('photo', dt.photo);
+      options.body = form;
+    } else {
+      url += 'updatePassword';
+      options.headers = { 'Content-Type': 'application/json' };
+      options.body = JSON.stringify(dt);
+    }
+
+    let response = await fetch(url, options);
+    if (!response.ok) throw response;
+    let data = await response.json();
+
+    if (data.status === 'success') {
+      alert('success', `Updated User ${type} successfully`, 2000);
+    }
+  } catch (err) {
+    err.text().then((errorMessage) => {
+      alert('error', JSON.parse(errorMessage).message, 5000);
+    });
+  }
+};
+if (userDataForm) {
+  userDataForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    if (!e.target.classList.contains('form-user-data')) {
+      return;
+    }
+
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const photo = document.getElementById('photo').files[0];
+    console.log(photo);
+    await updateSettings('data', { name, email, photo });
+    location.reload(true);
+  });
+}
