@@ -1,5 +1,5 @@
 const express = require('express');
-const app = express();
+
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
@@ -19,6 +19,9 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
 // process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
+
+const app = express();
+app.enable('trust proxy');
 
 // app.disable('etag');
 //view template
