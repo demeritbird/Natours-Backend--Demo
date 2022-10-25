@@ -18,6 +18,8 @@ const reviewRouter = require('./routes/reviewRoutes');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
+// process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
+
 // app.disable('etag');
 //view template
 app.set('view engine', 'pug');
